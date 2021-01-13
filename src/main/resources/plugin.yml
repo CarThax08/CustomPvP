@@ -1,0 +1,5 @@
+name: CustomPVP
+version: ${project.version}
+main: com.github.carthax08.custompvp.Main
+api-version: 1.16
+authors: [CarThax08]
