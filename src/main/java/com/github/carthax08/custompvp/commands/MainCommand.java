@@ -1,6 +1,5 @@
 package com.github.carthax08.custompvp.commands;
 
-import com.github.carthax08.custompvp.Main;
 import com.github.carthax08.custompvp.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

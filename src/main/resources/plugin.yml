@@ -3,3 +3,10 @@ version: ${project.version}
 main: com.github.carthax08.custompvp.Main
 api-version: 1.16
 authors: [CarThax08]
+commands:
+  pvp:
+    usage: /pvp
+    description: Provides you information about the plugin
+  rank:
+    usage: /rank
+    description: Tells you your rank and current Ranking Points.

@@ -65,4 +65,30 @@ public class Util {
             return false;
         }
     }
+
+    public static void rankupPlayer(OfflinePlayer p, Integer amountToChangeBy){
+        int currentRanking = RankingMap.get(p);
+        int newRanking = currentRanking + amountToChangeBy;
+        if(newRanking > 20 && newRanking < 40){
+            if(p.isOnline()){
+                p.getPlayer().sendMessage("Congratulations on raking up to Coal 2!");
+            }
+        }else if(newRanking < 60){
+            p.getPlayer().sendMessage("Congratulations on raking up to Coal 3!");
+        }else if(newRanking < 80){
+            p.getPlayer().sendMessage("Congratulations on raking up to Iron 1!");
+        }else if(newRanking < 100){
+            p.getPlayer().sendMessage("Congratulations on raking up to Iron 2!");
+        }else if(newRanking < 120){
+            p.getPlayer().sendMessage("Congratulations on raking up to Iron 3!");
+        }
+        //Still work in progress.
+    }
+
+
+
+
+
+
+
 }
