@@ -1,12 +1,16 @@
 package com.github.carthax08.custompvp;
 
+import com.github.shynixn.structureblocklib.api.bukkit.StructureBlockLibApi;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class Util {
     private static Random rand;
@@ -132,6 +136,16 @@ public class Util {
                 }
             }
         }
+    }
+    public static void loadArena(String gameMode, World world){
+        Path path = Main.getInstance().getDataFolder().toPath().resolve("gameMode" + ".nbt");
+        Plugin plugin = Main.getInstance();
+        StructureBlockLibApi.INSTANCE
+                .loadStructure(plugin)
+                .at(new Location(world, 100, 100, 100))
+                .loadFromPath(path)
+                .onException(e -> plugin.getLogger().log(Level.SEVERE, "Failed to load structure.", e))
+                .onResult(e -> plugin.getLogger().log(Level.INFO, ChatColor.GREEN + "Loaded structure 'mystructure'."));
     }
 
 }
