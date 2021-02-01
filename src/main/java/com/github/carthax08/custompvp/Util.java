@@ -1,11 +1,15 @@
 package com.github.carthax08.custompvp;
 
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Util {
+    private static Random rand;
     public static HashMap<OfflinePlayer, Integer> RankingMap = new HashMap<>();
     public static boolean isPlayerRanked(OfflinePlayer p){
         Main instance = Main.getInstance();
@@ -66,49 +70,68 @@ public class Util {
         }
     }
 
-    public static void rankupPlayer(OfflinePlayer p, Integer amountToChangeBy){
+    public static void addOrRemoveRankingFromPlayer(OfflinePlayer p, Integer amountToChangeBy){
         int currentRanking = RankingMap.get(p);
         int newRanking = currentRanking + amountToChangeBy;
-        if(newRanking > currentRanking) {
-            if (newRanking > 20 && newRanking <= 40) {
-                if (p.isOnline()) {
-                    p.getPlayer().sendMessage("Congratulations on raking up to Coal 2!");
+        RankingMap.put(p, newRanking);
+        if(p.isOnline()) {
+            if (newRanking > currentRanking) {
+                if (checkIfIntBetween(newRanking, 20, 40) && currentRanking < 20) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Coal 2!");
+                } else if (currentRanking < 40 && checkIfIntBetween(newRanking, 40, 60)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Coal 3!");
+                } else if (currentRanking < 60 && checkIfIntBetween(newRanking, 60, 80)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Iron 1!");
+                } else if (currentRanking < 80 && checkIfIntBetween(newRanking, 80, 100)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Iron 2!");
+                } else if (currentRanking < 100 && checkIfIntBetween(newRanking, 100, 120)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Iron 3!");
+                } else if (currentRanking < 120 && checkIfIntBetween(newRanking, 120, 140)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Gold 1!");
+                } else if (currentRanking < 140 && checkIfIntBetween(newRanking, 140, 160)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Gold 2!");
+                } else if (currentRanking < 160 && checkIfIntBetween(newRanking, 160, 180)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Gold 3!");
+                } else if (currentRanking < 180 && checkIfIntBetween(newRanking, 180, 200)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Diamond 1!");
+                } else if (currentRanking < 200 && checkIfIntBetween(newRanking, 200, 220)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Diamond 2!");
+                } else if (currentRanking < 220 && checkIfIntBetween(newRanking, 220, 240)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Diamond 3!");
+                } else if (currentRanking < 240 && checkIfIntBetween(newRanking, 240, 260)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Emerald 1!");
+                } else if (currentRanking < 260 && checkIfIntBetween(newRanking, 260, 280)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Emerald 2!");
+                } else if (currentRanking < 280 && checkIfIntBetween(newRanking, 280, 300)) {
+                    p.getPlayer().sendMessage("Congratulations on ranking up to Emerald 3");
+                } else if (currentRanking < 300) {
+                    p.getPlayer().sendMessage("Congratulations on raking up to Obsidian!");
                 }
-            } else if (currentRanking < 40 && newRanking <= 60) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Coal 3!");
-            } else if (newRanking <= 80) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Iron 1!");
-            } else if (newRanking <= 100) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Iron 2!");
-            } else if (newRanking <= 120) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Iron 3!");
-            } else if (newRanking <= 140) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Gold 1!");
-            } else if (newRanking <= 160) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Gold 2!");
-            } else if (newRanking <= 180) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Gold 3!");
-            } else if (newRanking <= 200) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Diamond 1!");
-            } else if (newRanking <= 220) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Diamond 2!");
-            } else if (newRanking <= 240) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Diamond 3!");
-            } else if (newRanking <= 260) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Emerald 1!");
-            } else if (newRanking <= 280) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Emerald 2!");
-            } else if (newRanking <= 300) {
-                p.getPlayer().sendMessage("Congratulations on raking up to Emerald 3");
-            }else if (currentRanking < 300 && newRanking > 300)
+            } else if (newRanking < currentRanking) {
+                //WIP
+            } else {
+                p.getPlayer().sendMessage("Your rank didn't change.");
+            }
         }
-        //Still work in progress.
     }
-
-
-
-
-
-
+    private static boolean checkIfIntBetween(Integer x, Integer y, Integer z){
+        return x >= y && x <= z;
+    }
+    public static void teleportPlayers(ArrayList<Player> players, String GameMode){
+        rand = new Random();
+        WorldCreator World = new WorldCreator(GameMode + "-" + rand.nextInt(100000));
+        World.type(WorldType.FLAT);
+        World.generateStructures(false);
+        World world = World.createWorld();
+        for(int i = 0; i < players.size(); i++){
+            if(GameMode.equalsIgnoreCase("1v1")) {
+                //WIP
+                if (i == 0) {
+                    Block b = world.getBlockAt(100, 20, 100);
+                    players.get(i).teleport(b.getLocation());
+                }
+            }
+        }
+    }
 
 }

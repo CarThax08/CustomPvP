@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 public class LeaderboardCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        return false;
+        //WIP
+        sender.sendMessage("Work in progress!!!");
+        return true;
     }
 }
