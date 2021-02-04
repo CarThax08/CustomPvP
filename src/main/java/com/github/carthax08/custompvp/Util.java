@@ -123,10 +123,20 @@ public class Util {
     }
     public static void teleportPlayers(ArrayList<Player> players, String GameMode){
         rand = new Random();
-        WorldCreator World = new WorldCreator(GameMode + "-" + rand.nextInt(100000));
-        World.type(WorldType.FLAT);
-        World.generateStructures(false);
-        World world = World.createWorld();
+        World world = null;
+        for(World world2 : Bukkit.getWorlds()){
+            String worldName = GameMode + "-" + rand.nextInt(100000);
+            if (world2.getName().equals(worldName)){
+                worldName = GameMode + "-" + rand.nextInt(100000);
+            }else{
+                WorldCreator w = new WorldCreator(worldName);
+                w.type(WorldType.FLAT);
+                w.generateStructures(false);
+                world = w.createWorld();
+                break;
+            }
+        }
+       
         for(int i = 0; i < players.size(); i++){
             if(GameMode.equalsIgnoreCase("1v1")) {
                 //WIP
